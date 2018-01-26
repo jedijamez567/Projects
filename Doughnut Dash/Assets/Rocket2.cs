@@ -6,17 +6,22 @@ using UnityEngine;
 public class Rocket2 : MonoBehaviour {
 
     Rigidbody rigidBody;
+    AudioSource thrustSound;
+    Camera mainCamera;
 
 	// Use this for initialization
 	void Start () {
         rigidBody = GetComponent<Rigidbody>();
+        thrustSound = GetComponent<AudioSource>();
+        mainCamera = GetComponent<Camera>();
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
         ProcessInput();
-	}
-
+        PlaySounds();
+    }
+    
     private void ProcessInput()
     {
         // Upwards Thrust (reletave to top of Rocket)
@@ -34,6 +39,18 @@ public class Rocket2 : MonoBehaviour {
         else if (Input.GetKey(KeyCode.D))
         {
             transform.Rotate(Vector3.back);
+        }
+    }
+
+    private void PlaySounds()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            thrustSound.Play();
+        }
+        else if (Input.GetKeyUp(KeyCode.Space))
+        {
+            thrustSound.Stop();
         }
     }
 }
