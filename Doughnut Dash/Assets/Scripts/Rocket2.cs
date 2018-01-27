@@ -32,7 +32,7 @@ public class Rocket2 : MonoBehaviour {
                 // do nothing
                 break;
             default:
-                Instantiate(explosion, gameObject.transform);
+                Instantiate(explosion, collision.transform);
                 Destroy(gameObject);
                 print("dead");
                 break;
