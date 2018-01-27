@@ -10,7 +10,7 @@ public class Rocket2 : MonoBehaviour {
     Camera mainCamera;
     [SerializeField] float rcsRotation = 130f;
     [SerializeField] float mainThrust = 50f;
-
+    public GameObject explosion;
     // Use this for initialization
     void Start () {
         rigidBody = GetComponent<Rigidbody>();
@@ -24,6 +24,21 @@ public class Rocket2 : MonoBehaviour {
         Rotate();
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        switch (collision.gameObject.tag)
+        {
+            case "Friendly":
+                // do nothing
+                break;
+            default:
+                Instantiate(explosion, gameObject.transform);
+                Destroy(gameObject);
+                print("dead");
+                break;
+        }
+    }
+
     private void Thrust()
     {
         float thrustThisFrame = mainThrust * Time.deltaTime;
@@ -31,6 +46,7 @@ public class Rocket2 : MonoBehaviour {
         if (Input.GetMouseButton(button:0))
         {
             rigidBody.AddRelativeForce(Vector3.up / thrustThisFrame);
+
             if (!thrustSound.isPlaying)
             {
                 thrustSound.Play();
